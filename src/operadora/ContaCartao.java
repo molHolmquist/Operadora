@@ -1,4 +1,4 @@
-package operadora;
+package Operadora;
 
 import java.util.Date;
 import java.util.GregorianCalendar;

@@ -2,13 +2,22 @@ package Interface;
 
 import java.util.Scanner;
 
-public class Interface {
+import Operadora.*;
+import excecoes.*;
 
+public class Interface {
+	
+	private Operadora operadora;
 	private static boolean menuAberto = false;
 	
-	public void menu() {
+	public Interface(Operadora operadora){
+		this.operadora = operadora;
+	}
+	
+	public boolean menu() {
 		
 		Scanner scan = null;
+		boolean fecharMenu = false;
 		try {
 			scan = new Scanner(System.in);
 			if(menuAberto) {
@@ -86,6 +95,7 @@ public class Interface {
 		    case "q":
 		    	//Apenas sai do menu
 		    	gravarDadosArquivo();
+		    	fecharMenu = true;
 		    	break;
 		    default:
 		    	System.out.println("Entrada inválida. Digite um valor entre 1 e 15, ou então saia do programa e grave os dados com q.");
@@ -93,15 +103,29 @@ public class Interface {
 		    	//throw new IllegalArgumentException("Função inválida. Digite um valor entre 1 e 13, ou então saia do programa com q.");
 		    
 		    }
+		} catch(ExcecaoCliente ec) {
+			System.out.println(ec.getMessage());
+			System.out.println(ec.getCliente().toString());
 		}
 		finally {
 		    if(scan!=null)
 		        scan.close();
 		}
-		
+	    return fecharMenu;
 	}
 
-	void cadastrarCliente() {}
+	void cadastrarCliente() throws ExcecaoCliente {
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Insira o nome do Cliente:");
+		String nome = scan.nextLine();
+		System.out.println("Insira o cpf ou o cnpj do Cliente:");
+		String cpfOuCnpj = scan.nextLine();
+		System.out.println("Insira o endereco do Cliente:");
+		String end = scan.nextLine();
+		operadora.cadastrarCliente(nome, end, cpfOuCnpj);
+		
+		
+	}
 	void cadastrarPlano() {}
 	void habilitarCelular() {}
 	void excluirCelular() {}

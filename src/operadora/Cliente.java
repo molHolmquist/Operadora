@@ -1,4 +1,4 @@
-package operadora;
+package Operadora;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,40 +9,40 @@ public class Cliente implements Serializable{
 	private String endereco;
 	private ArrayList<Celular> listaCelulares;
 	
-	Cliente(String nome, String endereco, String cpfOuCnpj){
+	public Cliente(String nome, String endereco, String cpfOuCnpj){
 		super();
 		this.nome = nome;
 		this.endereco = endereco;
 		this.cpfOuCnpj = cpfOuCnpj;
 	}
 	
-	String getNome() {
+	public String getNome() {
 		return nome;
 	}
-	void setNome(String nome) {
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	String getCpfOuCnpj() {
+	public String getCpfOuCnpj() {
 		return cpfOuCnpj;
 	}
-	void setCpfOuCnpj(String cpfOuCnpj) {
+	public void setCpfOuCnpj(String cpfOuCnpj) {
 		this.cpfOuCnpj = cpfOuCnpj;
 	}
-	String getEndereco() {
+	public String getEndereco() {
 		return endereco;
 	}
 
-	void setEndereco(String endereco) {
+	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
 	
-	ArrayList<Celular> getListaCel() {
+	public ArrayList<Celular> getListaCel() {
 		return listaCelulares;
 	}
 
 
-	void setListaCel(ArrayList<Celular> listaCelulares) {
-		this.listaCelulares = listaCelulares;
+	public void addCelular(Celular celular) {
+		this.listaCelulares.add(celular);
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package excecoes;
 
-import operadora.Plano;
+import Operadora.*;
 
 public class ExcecaoPlano extends Exception{
 	
@@ -33,6 +33,10 @@ public class ExcecaoPlano extends Exception{
 	public ExcecaoPlano(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
+	}
+
+	public Plano getPlano() {
+		return plano;
 	}
 
 }

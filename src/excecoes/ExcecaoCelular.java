@@ -1,6 +1,6 @@
 package excecoes;
 
-import operadora.Celular;
+import Operadora.*;
 
 public class ExcecaoCelular extends Exception{
 
@@ -31,11 +31,13 @@ public class ExcecaoCelular extends Exception{
 		// TODO Auto-generated constructor stub
 	}
 
-
-
 	public ExcecaoCelular(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
+	}
+
+	public Celular getCelular() {
+		return celular;
 	}
 	
 }

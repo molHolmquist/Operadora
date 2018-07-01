@@ -1,6 +1,6 @@
 package excecoes;
 
-import operadora.Cliente;
+import Operadora.*;
 
 public class ExcecaoCliente extends Exception {
 	
@@ -36,6 +36,10 @@ public class ExcecaoCliente extends Exception {
 	public ExcecaoCliente(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
+	}
+
+	public Cliente getCliente() {
+		return cliente;
 	}
 	
 
