@@ -9,7 +9,7 @@ public class Plano implements Serializable{
 
 	private Double valorPorMinuto;
 	
-	public Plano(String nome, GregorianCalendar validade, Double valorPorMinuto) {
+	public Plano(String nome, Double valorPorMinuto) {
 		super();
 		this.nome = nome;
 		this.valorPorMinuto = valorPorMinuto;
@@ -22,13 +22,13 @@ public class Plano implements Serializable{
 		
 	}
 	
-	String getNome() {
+	public String getNome() {
 		return nome;
 	}
-	void setNome(String nome) {
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	Double getValorPorMinuto() {
+	public Double getValorPorMinuto() {
 		return valorPorMinuto;
 	}
 	void setValorPorMinuto(Double valorPorMinuto) {

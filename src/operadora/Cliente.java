@@ -48,7 +48,7 @@ public class Cliente implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Cliente [nome= " + nome + ", cpfOuCnpj= " + cpfOuCnpj;
+		return "Cliente: nome= " + nome + ", cpfOuCnpj= " + cpfOuCnpj;
 	}
 
 }

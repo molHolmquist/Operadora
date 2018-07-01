@@ -55,24 +55,24 @@ public class Operadora implements Serializable{
 	}
 	
 	
-	public void cadastrarPlano(String nome, GregorianCalendar validade, double valorPorMinuto) throws ExcecaoPlano {
+	public void cadastrarPlano(String nome, double valorPorMinuto) throws ExcecaoPlano {
 		
 		for(Plano p: planos) {	
 			if(p.getNome().equals(nome)) {
 				throw new ExcecaoPlano("Plano já registrado.", p);
 			}
 		}
-		Plano plano = new Plano(nome, validade, valorPorMinuto);
+		Plano plano = new Plano(nome, valorPorMinuto);
 		planos.add(plano);
 		
 	}
 	
 	
-	public void habilitarCelularPosPago(Cliente cliente, String nomePlano, String cpfOuCnpj, GregorianCalendar vencimentoFartura) 
+	public void habilitarCelularPosPago(Cliente cliente, String nomePlano, GregorianCalendar vencimentoFartura) 
 			throws ExcecaoPlano, ExcecaoCliente {
 		
 		Plano plano = buscarPlano(nomePlano); //Joga ExcecaoPlano caso nao encontre um plano
-		Cliente buscaCliente = buscarCliente(cliente); //Joga ExcecaoCliente caso nao encontre cliente
+		Cliente buscaCliente = buscarCliente(cliente.getCpfOuCnpj()); //Joga ExcecaoCliente caso nao encontre cliente
 		
 		//Talvez adicionar excecao de vencimento incoerente.
 		Celular celular = new Celular(cliente, plano, vencimentoFartura);
@@ -83,11 +83,11 @@ public class Operadora implements Serializable{
 	}
 	
 	
-	public void habilitarCelularPrePago(Cliente cliente, String nomePlano, String cpfOuCnpj) 
+	public void habilitarCelularPrePago(Cliente cliente, String nomePlano) 
 			throws ExcecaoPlano, ExcecaoCliente {
 		
 		Plano plano = buscarPlano(nomePlano); //Joga ExcecaoPlano caso nao encontre um plano
-		Cliente buscaCliente = buscarCliente(cliente); //Joga ExcecaoCliente caso nao encontre cliente
+		Cliente buscaCliente = buscarCliente(cliente.getCpfOuCnpj()); //Joga ExcecaoCliente caso nao encontre cliente
 		Celular celular = new Celular(cliente, plano);
 		celulares.add(celular);
 		cliente.addCelular(celular);
@@ -198,15 +198,15 @@ public class Operadora implements Serializable{
 		}
 		throw new ExcecaoPlano("Plano de nome " + nomePlano + " inexistente.");
 	}
-	private Cliente buscarCliente(Cliente cliente) throws ExcecaoCliente{
+	public Cliente buscarCliente(String cpfOuCnpj) throws ExcecaoCliente{
 		
 		for(Cliente c: clientes) {
 			
-			if(c.getCpfOuCnpj().equals(cliente.getCpfOuCnpj())) {
+			if(c.getCpfOuCnpj().equals(cpfOuCnpj)) {
 				return c;
 			}
 		}
-		throw new ExcecaoCliente("Cliente solicitado nao encontrado.",cliente);
+		throw new ExcecaoCliente("Cliente com CPF ou CNPJ " + cpfOuCnpj +   " não encontrado.");
 		
 	}
 	
