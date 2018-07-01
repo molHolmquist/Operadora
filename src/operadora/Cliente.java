@@ -1,35 +1,58 @@
 package operadora;
 
+import java.util.ArrayList;
+
 public class Cliente {
-	private String nomeString;
+	private String nome;
 	private String cpfOuCnpj;
 	private String endereco;
-	//private ArrrayList<Celular> listaCel;
+	private ArrayList<Celular> listaCelulares;
 	
-	
-	public String getNomeString() {
-		return nomeString;
-	}
-	public void setNomeString(String nomeString) {
-		this.nomeString = nomeString;
-	}
-	public String getCpfOuCnpj() {
-		return cpfOuCnpj;
-	}
-	public void setCpfOuCnpj(String cpfOuCnpj) {
+	Cliente(String nome, String endereco, String cpfOuCnpj){
+		super();
+		this.nome = nome;
+		this.endereco = endereco;
 		this.cpfOuCnpj = cpfOuCnpj;
 	}
-	public String getEndereco() {
+	
+	String getNome() {
+		return nome;
+	}
+	void setNome(String nome) {
+		this.nome = nome;
+	}
+	String getCpfOuCnpj() {
+		return cpfOuCnpj;
+	}
+	void setCpfOuCnpj(String cpfOuCnpj) {
+		this.cpfOuCnpj = cpfOuCnpj;
+	}
+	String getEndereco() {
 		return endereco;
 	}
 
-	public void setEndereco(String endereco) {
+	void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	ArrayList<Celular> getListaCel() {
+		return listaCelulares;
+	}
 
+
+	void setListaCel(ArrayList<Celular> listaCelulares) {
+		this.listaCelulares = listaCelulares;
+	}
+	
+	public static void main(String[] args) {
+		Cliente joao = new Cliente("Joao", "Rua Joao", "07320176610");
+		System.out.println(joao.getNome());
+
+	}
+
+	@Override
+	public String toString() {
+		return "Cliente [nome= " + nome + ", cpfOuCnpj= " + cpfOuCnpj;
 	}
 
 }
