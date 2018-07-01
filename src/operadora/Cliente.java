@@ -1,8 +1,9 @@
 package operadora;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Cliente {
+public class Cliente implements Serializable{
 	private String nome;
 	private String cpfOuCnpj;
 	private String endereco;
@@ -42,12 +43,6 @@ public class Cliente {
 
 	void setListaCel(ArrayList<Celular> listaCelulares) {
 		this.listaCelulares = listaCelulares;
-	}
-	
-	public static void main(String[] args) {
-		Cliente joao = new Cliente("Joao", "Rua Joao", "07320176610");
-		System.out.println(joao.getNome());
-
 	}
 
 	@Override

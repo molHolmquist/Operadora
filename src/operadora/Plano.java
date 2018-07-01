@@ -1,8 +1,9 @@
 package operadora;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
-public class Plano {
+public class Plano implements Serializable{
 	
 	private String nome;
 

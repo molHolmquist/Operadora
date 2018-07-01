@@ -1,8 +1,9 @@
 package operadora;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
-public class Celular {
+public class Celular implements Serializable{
 
 	static int proximoNumeroCelular = 999000001;
 	
@@ -45,6 +46,9 @@ public class Celular {
 	}
 	public void setConta(ContaCelular conta) {
 		this.conta = conta;
+	}
+	public static void setProximoNumeroCelular(int proximoNumeroCelular) {
+		Celular.proximoNumeroCelular = proximoNumeroCelular;
 	}
 
 	

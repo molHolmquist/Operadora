@@ -43,6 +43,9 @@ public class ContaCartao extends ContaCelular {
 	public ValorData listarValorContaCredito() {
 		return new ValorData(this.credito, this.validade, 'c');
 	}
+	public void zerarCredito() {
+		this.credito = 0;
+	}
 	
 
 }

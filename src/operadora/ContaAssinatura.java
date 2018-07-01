@@ -32,6 +32,12 @@ public class ContaAssinatura extends ContaCelular{
 	public double getTotalAPagar() {
 		return this.TotalAPagar;
 	}
+	public void quitarConta(){
+		this.TotalAPagar = 0;
+	}
+	public void quitarValorDeConta(double valor){
+		this.TotalAPagar -= valor;
+	}
 	
 	public ValorData listarValorContaCredito() {
 		return new ValorData(this.TotalAPagar, this.validade,'a');

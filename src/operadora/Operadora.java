@@ -1,15 +1,25 @@
 package operadora;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+
+import javax.swing.JOptionPane;
 
 import excecoes.ExcecaoPlano;
 import excecoes.ExcecaoCelular;
 import excecoes.ExcecaoCliente;
 
-public class Operadora {
+public class Operadora implements Serializable{
 	
-
+	private String nomeOperadora;
 	private ArrayList<Cliente> clientes;
 	private ArrayList<Celular> celulares;
 	private ArrayList<Plano> planos;
@@ -21,6 +31,10 @@ public class Operadora {
 		this.planos = planos;
 	}
 	
+	public Operadora(String nomeOperadora) {
+		this.nomeOperadora = nomeOperadora;
+	}
+
 	public void cadastrarCliente(String nome, String endereco, String cpfOuCnpj) throws ExcecaoCliente {
 
 		for(Cliente c: clientes) {
@@ -150,6 +164,32 @@ public class Operadora {
 		}
 		return celularesVencidos;
 	}
+	
+	public void quitarConta(int numeroCelular) throws ExcecaoCelular { // Apenas para celular tipo assinatura
+		
+		Celular celular = buscarCelular(numeroCelular);
+		if(celular.getConta().getTipo() == 'c') {
+			throw new ExcecaoCelular("Celular do tipo cartao não é compatível com pedido de quitar conta.", celular);
+		}
+		((ContaAssinatura) celular.getConta()).quitarConta();
+	}
+	
+	public void quitarParteConta(int numeroCelular, double valor) throws ExcecaoCelular { //Apenas para celular tipo assinatura
+		
+		Celular celular = buscarCelular(numeroCelular);
+		if(celular.getConta().getTipo() == 'c') {
+			throw new ExcecaoCelular("Celular do tipo cartao não é compatível com pedido de quitar conta.", celular);
+		}
+		((ContaAssinatura) celular.getConta()).quitarValorDeConta(valor);
+	}
+	
+	public void zerarCreditoConta(int numeroCelular) throws ExcecaoCelular{
+		Celular celular = buscarCelular(numeroCelular);
+		if(celular.getConta().getTipo() == 'a') {
+			throw new ExcecaoCelular("Celular do tipo assinatura nao compativel com pedido de zerar creditos.", celular);
+		}
+		((ContaCartao) celular.getConta()).zerarCredito();
+	}
 
 	private Celular buscarCelular(int numeroCelular) throws ExcecaoCelular {
 		
@@ -160,6 +200,73 @@ public class Operadora {
 		}
 		throw new ExcecaoCelular("Celular inexistente.");
 		
+	}
+	public void writeFile() {
+
+		try {
+			FileOutputStream f = new FileOutputStream(new File("DadosOperadora.dat"));
+			ObjectOutputStream o = new ObjectOutputStream(f);
+
+			// Write objects to file
+			o.writeObject(this);
+
+			o.close();
+			f.close();
+			System.out.println("Alterações salvas com sucesso!\n");
+
+		} catch (IOException e) {
+			System.out.println("Error initializing stream");
+			System.out.println("\nNão foi possível salvar as Alterações!\n");
+		}
+	}
+
+	public static Operadora readFile() {
+
+		try {
+			FileInputStream fi = new FileInputStream(new File("OperData.dat"));
+			ObjectInputStream oi = new ObjectInputStream(fi);
+
+			// Read objects
+			Operadora operadora = (Operadora) oi.readObject();
+
+			oi.close();
+			fi.close();
+			//operadora.listarCelulares().get(operadora.listarCelulares().size()-1
+			if (operadora.listarCelulares().size() >= 1)
+				Celular.setProximoNumeroCelular(operadora.listarCelulares().get(operadora.listarCelulares().size()-1).getNumero());
+			return operadora;
+
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found");
+		} catch (IOException e) {
+			System.out.println("Error initializing stream");
+			if (createOperadoraObjectWithDefaultName()) {
+				JOptionPane.showMessageDialog(null, "Operadora padrão criada.", "Erro ao iniciar operadora", 1);
+				System.out.println("Default Operator Created. Try again!");
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public static Boolean createOperadoraObjectWithDefaultName() {
+
+		Operadora op1 = new Operadora("Tim");
+
+		try {
+			FileOutputStream f = new FileOutputStream(new File("OperData.dat"));
+			ObjectOutputStream o = new ObjectOutputStream(f);
+
+			// Write objects to file
+			o.writeObject(op1);
+
+			o.close();
+			f.close();
+			return true;
+		} catch (IOException e) {
+			System.out.println("Error initializing stream");
+			return false;
+		}
 	}
 	
 }
