@@ -29,7 +29,7 @@ public class ContaCelular{ // Associado a um e apenas um celular
 	}
 	
 	public void registrarLigacao(GregorianCalendar dataLigacao, double duracao) throws ExcecaoCelular {
-		Ligacao ligacao = new Ligacao(dataLigacao, duracao);
+		Ligacao ligacao = new Ligacao();
 		ligacoes.add(ligacao);
 	}
 	
@@ -63,6 +63,14 @@ public class ContaCelular{ // Associado a um e apenas um celular
 
 	public void setPlano(Plano plano) {
 		this.plano = plano;
+	}
+	public boolean checarVencimento() { //Retorna true se vencido
+		
+		GregorianCalendar data = new GregorianCalendar();
+		if(data.getTimeInMillis() < validade.getTimeInMillis()) {
+			return true;
+		}
+		return false;
 	}
 
 }

@@ -124,7 +124,7 @@ public class Operadora {
 		return celular.getConta().listarValorContaCredito();
 		
 	}
-	public ArrayList<Ligacao> listarExtratoLig(int numeroCelular, GregorianCalendar data) throws ExcecaoCelular{
+	public ArrayList<Ligacao> listarExtratoLigacoes(int numeroCelular, GregorianCalendar data) throws ExcecaoCelular{
 		
 		Celular celular = buscarCelular(numeroCelular);
 		return celular.getConta().extratoLigacoes(data);
@@ -137,7 +137,18 @@ public class Operadora {
 		return planos;
 	}
 	public ArrayList<Celular> listarCelulares() {
-		return celulares;
+		return this.celulares;
+	}
+	
+	public ArrayList<Celular> informativoDeVencimento(){
+		
+		ArrayList<Celular> celularesVencidos = new ArrayList<Celular>();
+		for(Celular cel: celulares) {
+			if(cel.getConta().checarVencimento()) {
+				celularesVencidos.add(cel);
+			}
+		}
+		return celularesVencidos;
 	}
 
 	private Celular buscarCelular(int numeroCelular) throws ExcecaoCelular {
@@ -150,4 +161,5 @@ public class Operadora {
 		throw new ExcecaoCelular("Celular inexistente.");
 		
 	}
+	
 }

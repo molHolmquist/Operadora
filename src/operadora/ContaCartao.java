@@ -37,7 +37,7 @@ public class ContaCartao extends ContaCelular {
 		}
 
 		credito -= custoLigacao;
-		Ligacao ligacao = new Ligacao(dataLigacao, duracao);
+		Ligacao ligacao = new Ligacao(dataLigacao, duracao, custoLigacao);
 		this.ligacoes.add(ligacao);
 	}
 	public ValorData listarValorContaCredito() {

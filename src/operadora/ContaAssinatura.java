@@ -25,7 +25,7 @@ public class ContaAssinatura extends ContaCelular{
 	public void registrarLigacao( GregorianCalendar dataLigacao, double duracao) throws ExcecaoCelular {
 		double custoLigacao = duracao*this.plano.getValorPorMinuto();
 		TotalAPagar += custoLigacao;
-		Ligacao ligacao = new Ligacao(dataLigacao, duracao);
+		Ligacao ligacao = new Ligacao(dataLigacao, duracao, custoLigacao);
 		ligacoes.add(ligacao);
 	}
 
