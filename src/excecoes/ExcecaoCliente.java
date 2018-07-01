@@ -2,6 +2,7 @@ package excecoes;
 
 import Operadora.*;
 
+@SuppressWarnings("serial")
 public class ExcecaoCliente extends Exception {
 	
 	private Cliente cliente;

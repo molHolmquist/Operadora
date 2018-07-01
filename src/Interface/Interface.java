@@ -1,5 +1,6 @@
 package Interface;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import Operadora.*;
@@ -27,7 +28,7 @@ public class Interface {
 				if(menuAberto) {
 					System.out.println();
 				    System.out.println("Aperte enter para voltar ao menu");
-				    //String a = scan.nextLine();
+				    String a = scan.nextLine();
 				}
 			    menuAberto = true;
 				jumpSpace();
@@ -100,6 +101,7 @@ public class Interface {
 			    	//Apenas sai do menu
 			    	gravarDadosArquivo();
 			    	fecharMenu = true;
+			    	operadora.writeFile();
 				    if(scan!=null)
 				        scan.close();
 			    	break;
@@ -113,7 +115,7 @@ public class Interface {
 				System.out.println(ec.getCliente().toString());
 			}
 			finally {
-
+				
 			}
 		
 		}
@@ -130,7 +132,6 @@ public class Interface {
 		String end = scan.nextLine();
 		operadora.cadastrarCliente(nome, end, cpfOuCnpj);
 		
-		
 	}
 	void cadastrarPlano() {}
 	void habilitarCelular() {}
@@ -139,7 +140,28 @@ public class Interface {
 	void registrarLigacao() {}
 	void listarValorContaCredito() {}
 	void extratoLigacoes() {}
-	void listarClientes() {}
+	void listarClientes() {
+		ArrayList<Cliente> listaClientes = operadora.listarClientes();
+		
+		System.out.println("LISTA DE CLIENTES");
+		
+		for(Cliente c: listaClientes) {
+			System.out.println("-----------------------------");
+			System.out.println(c.getNome());
+			System.out.println(c.getCpfOuCnpj());
+			System.out.println(c.getEndereco());
+			ArrayList<Celular> celulares = c.getListaCel();
+			if(celulares.isEmpty()) {
+				System.out.println("Nenhum celular registrado.");
+			}else {
+				System.out.println("Celulares: ");
+				for(Celular cel: celulares) {
+					System.out.println(cel.getNumero());
+				}
+			}
+
+		}
+	}
 	void listarCelulares() {}
 	void listarPlanos() {}
 	void informativoVencimento() {}

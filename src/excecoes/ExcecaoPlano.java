@@ -2,6 +2,7 @@ package excecoes;
 
 import Operadora.*;
 
+@SuppressWarnings("serial")
 public class ExcecaoPlano extends Exception{
 	
 	private Plano plano;

@@ -2,6 +2,7 @@ package excecoes;
 
 import Operadora.*;
 
+@SuppressWarnings("serial")
 public class ExcecaoCelular extends Exception{
 
 	private Celular celular;

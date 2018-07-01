@@ -19,6 +19,7 @@ public class ContaCelular{ // Associado a um e apenas um celular
 	ContaCelular(Plano plano, GregorianCalendar validade){
 		this.plano = plano;
 		this.validade = validade;
+		ligacoes = new ArrayList<Ligacao>();
 	}
 	
 	public boolean checarPendencia() {

@@ -14,6 +14,7 @@ public class Cliente implements Serializable{
 		this.nome = nome;
 		this.endereco = endereco;
 		this.cpfOuCnpj = cpfOuCnpj;
+		listaCelulares = new ArrayList<Celular>();
 	}
 	
 	public String getNome() {

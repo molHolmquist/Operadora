@@ -34,17 +34,21 @@ public class Operadora implements Serializable{
 	
 	public Operadora(String nomeOperadora) {
 		this.nomeOperadora = nomeOperadora;
+		clientes = new ArrayList<Cliente>();
+		celulares = new ArrayList<Celular>();
+		planos = new ArrayList<Plano>();
 	}
 
 	public void cadastrarCliente(String nome, String endereco, String cpfOuCnpj) throws ExcecaoCliente {
 
+		//if(clientes != null) {
 		for(Cliente c: clientes) {
 			
 			if(c.getCpfOuCnpj().equals(cpfOuCnpj)) {
 				throw new ExcecaoCliente("Cliente já registrado.", c);
 			}
 		}
-		
+		//}
 		Cliente cliente = new Cliente(nome,endereco,cpfOuCnpj);
 		clientes.add(cliente);
 		
@@ -219,7 +223,7 @@ public class Operadora implements Serializable{
 
 			o.close();
 			f.close();
-			System.out.println("Alterações salvas com sucesso!\n");
+			System.out.println("Alterações salvas");
 
 		} catch (IOException e) {
 			System.out.println("Error initializing stream");
@@ -241,22 +245,21 @@ public class Operadora implements Serializable{
 			//operadora.listarCelulares().get(operadora.listarCelulares().size()-1
 			if (operadora.listarCelulares().size() >= 1)
 				Celular.setProximoNumeroCelular(operadora.listarCelulares().get(operadora.listarCelulares().size()-1).getNumero());
+
 			return operadora;
 
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
+			return operadoraDefault();
 		} catch (IOException e) {
 			System.out.println("Error initializing stream");
-			if (operadoraDefault()) {
-				JOptionPane.showMessageDialog(null, "Operadora padrão criada.", "Erro ao iniciar operadora", 1);
-				System.out.println("Default Operator Created. Try again!");
-			}
+			return operadoraDefault();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	public static Boolean operadoraDefault() {
+	public static Operadora operadoraDefault() {
 
 		Operadora op1 = new Operadora("Tim");
 
@@ -268,11 +271,11 @@ public class Operadora implements Serializable{
 
 			o.close();
 			f.close();
-			return true;
+			return op1;
 		} catch (IOException e) {
 			System.out.println("Error initializing stream");
-			return false;
 		}
+		return null;
 	}
 	
 }
