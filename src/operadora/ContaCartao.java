@@ -32,7 +32,7 @@ public class ContaCartao extends ContaCelular {
 		
 		if(credito - custoLigacao < 0) {
 			throw new ExcecaoCelular("Creditos insuficientes para ligação.");
-		}else if(this.validade.getTime().getTime() < new Date().getTime()){
+		}else if(this.validade.getTime().getTime() < dataLigacao.getTime().getTime()){
 			throw new ExcecaoCelular("Data de validade dos creditos atingida.");
 		}
 

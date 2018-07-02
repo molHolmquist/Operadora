@@ -70,7 +70,7 @@ public class ContaCelular implements Serializable{ // Associado a um e apenas um
 	public boolean checarVencimento() { //Retorna true se vencido
 		
 		GregorianCalendar data = new GregorianCalendar();
-		if(data.getTimeInMillis() < validade.getTimeInMillis()) {
+		if(data.getTimeInMillis() > validade.getTimeInMillis()) {
 			return true;
 		}
 		return false;

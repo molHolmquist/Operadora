@@ -102,7 +102,6 @@ public class Interface {
 			    case "q":
 			    	System.out.println();
 			    	System.out.println("Programa fechado");
-			    	gravarDadosArquivo();
 			    	fecharMenu = true;
 			    	operadora.escreverArquivo();;
 				    if(scan!=null)
@@ -407,10 +406,58 @@ public class Interface {
 		}
 		
 	}
-	void informativoVencimento() {}
+	void informativoVencimento() throws ExcecaoCelular {
+		
+		System.out.println("-----------------------------");
+		System.out.println("Lista de celulares com conta/crédito vencido");
+		System.out.println("-----------------------------");
+		ArrayList<Celular> celularesContaVencida = operadora.informativoDeVencimento();
+		if(celularesContaVencida.isEmpty())
+			System.out.println("Nenhum celular com conta/crédito vencido");
+		for(Celular cel: celularesContaVencida){
+			
+			
+			
+			System.out.println("====================");
+			System.out.println("Número do celular: " + cel.getNumero());
+			ValorData valordata = operadora.listarValorContaCredito(cel.getNumero());
+			if(cel.getConta().getTipo()=='c') {
+				System.out.println("Plano pré-pago.");
+				System.out.println("Crédito total disponível no celular: " + valordata.getValor());
+				
+				if(valordata.getData() != null) {
+					SimpleDateFormat fmt = new SimpleDateFormat("dd-MMM-yyyy");
+				    fmt.setCalendar(valordata.getData());
+				    String dateFormatted = fmt.format(valordata.getData().getTime());
+				    System.out.println("Data de validade dos créditos: " + dateFormatted);
+				}else {
+					System.out.println("Vencimento ainda não estabelecido porque o celular não tem crédito.");
+				}
+			}
+			else {
+				System.out.println("Plano pós-pago.");
+				System.out.println("Valor total a pagar até o vencimento da fartura:  " 
+				+ valordata.getValor());
+				
+				SimpleDateFormat fmt = new SimpleDateFormat("dd-MMM-yyyy");
+			    fmt.setCalendar(valordata.getData());
+			    String dateFormatted = fmt.format(valordata.getData().getTime());
+			    System.out.println("Validade do faturamento: " + dateFormatted);
+			}
+			System.out.println("Nome do plano: " + cel.getConta().getPlano().getNome());
+			Cliente c = cel.getCliente();
+			System.out.println("Cliente: ");
+			System.out.println(c.getNome());
+			System.out.println(c.getCpfOuCnpj());
+			System.out.println(c.getEndereco());
+			System.out.println("====================");
+			
+		}
+		
+		
+	}
 	void quitarConta() {}
 	void zerarCredito() {}
-	void gravarDadosArquivo() {}
 	
 	private void jumpSpace() {
 		for (int i = 0; i < 3; ++i)  
