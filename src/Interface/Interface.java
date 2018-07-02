@@ -422,7 +422,15 @@ public class Interface {
 	}
 	void informativoVencimento() {}
 	void quitarConta() {}
-	void zerarCredito() {}
+	void zerarCredito() throws ExcecaoCelular {
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Digite o número do celular do qual se deseja zerar os créditos: ");
+		String numeroCelular = scan.nextLine();
+		operadora.zerarCreditoConta(Integer.parseInt(numeroCelular));
+		
+		System.out.println("Créditos do número "+ numeroCelular + " zerados");
+		
+	}
 	void gravarDadosArquivo() {}
 	
 	private void jumpSpace() {
