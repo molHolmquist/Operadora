@@ -184,7 +184,9 @@ public class Interface {
 				System.out.println("Cliente cadastrado.");
 				break;
 			default:
-				System.out.println("Entrada inválida, opções: 1 ou 2.");
+				System.out.println("Entrada inválida, opções: 1 ou 2. Para voltar ao menu digite (q)");
+				if(s.equals("q")||s.equals("Q"))
+					return;
 				
 		}
 		
@@ -194,7 +196,7 @@ public class Interface {
 		System.out.println("2: Pós-pago");
 		
 		String nomePlano = null;
-		GregorianCalendar data = null;
+		
 		s = scan.nextLine();
 		switch(s) {
 		
@@ -210,19 +212,20 @@ public class Interface {
 				System.out.println("Digite o nome do plano:");
 				nomePlano = scan.nextLine();
 				Plano p = operadora.buscarPlano(nomePlano); // checa se o plano existe
-				System.out.println("Digite a data de vencimento da fartura no formato d/m/aaaa:");
-				String Data =  scan.nextLine();
-				
-				String dia = null; String mes = null; String ano = null;
-				dia = Data.substring(0, Data.indexOf("/"));
-				mes = Data.substring(Data.indexOf("/")+1, Data.indexOf("/",Data.indexOf("/")+1));
-				ano = Data.substring(1+Data.indexOf("/",Data.indexOf("/")+1), Data.length());
-				data = new GregorianCalendar(Integer.parseInt(ano), Integer.parseInt(mes)-1, Integer.parseInt(dia));
-				
+				System.out.println("Digite a data de vencimento da fartura no formato dd/mm/aaaa:");
+				GregorianCalendar data = 
+						GetStringToGregorianCalData("val", "Digite a data de vencimento da fartura no formato dd/mm/aaaa:");
+				if(data == null)
+					return;
 				operadora.habilitarCelularPosPago(c, nomePlano, data);
+				System.out.println("CELULAR HABILITADO!");
+				System.out.println("Plano selecionado: " + nomePlano);
+				System.out.println("Vencimento da fatura: " + DateToString(data));
 				break;
 			default:
-				System.out.println("Entrada inválida, opções: 1 ou 2.");
+				System.out.println("Entrada inválida, opções: 1 ou 2. Para voltar ao menu digite (q)");
+				if(s.equals("q")||s.equals("Q"))
+					return;
 				
 		}
 		
@@ -255,7 +258,6 @@ public class Interface {
 		System.out.println("Credito de " + valor
 		+ " reais adicionados ao número " + numeroCelular);
 		System.out.println("-----------------------------");
-		
 	}
 	void registrarLigacao() throws ExcecaoCelular{ //AINDA NAO TESTADO
 		
@@ -265,21 +267,18 @@ public class Interface {
 		System.out.println("-----------------------------");
 		System.out.println("Digite o número do celular: ");
 		String numeroCelular = scan.nextLine();
-		System.out.println("Digite a duração da ligação: ");
+		System.out.println("Digite a duração da ligação em minutos: ");
 		String duracao = scan.nextLine();
-		System.out.println("Digite a data da ligação no formato d/m/aaaa: ");
-		String Data =  scan.nextLine();
+		System.out.println("Digite a data da ligação no formato dd/mm/aaaa: ");
 		
-		
-		GregorianCalendar dataLigacao = null;
-		String dia = null; String mes = null; String ano = null;
-		dia = Data.substring(0, Data.indexOf("/"));
-		mes = Data.substring(Data.indexOf("/")+1, Data.indexOf("/",Data.indexOf("/")+1));
-		ano = Data.substring(1+Data.indexOf("/",Data.indexOf("/")+1), Data.length());
-		dataLigacao = new GregorianCalendar(Integer.parseInt(ano), Integer.parseInt(mes)-1, Integer.parseInt(dia));
+		GregorianCalendar dataLigacao = 
+				GetStringToGregorianCalData("horario", "Digite a data da ligação no formato dd/mm/aaaa: ");
+		if(dataLigacao == null)
+			return;
 		operadora.registrarLigacao(Integer.parseInt(numeroCelular), Double.parseDouble(duracao), dataLigacao);
 		
-		System.out.println("Ligacação registrada no número " + numeroCelular + ".");
+		System.out.println("Ligacação registrada no número " + numeroCelular + " em "
+				+ DateToString(dataLigacao)+ ".");
 		System.out.println("-----------------------------");
 	}
 	
@@ -294,17 +293,13 @@ public class Interface {
 		String numeroCelular = scan.nextLine();
 		ValorData valordata = operadora.listarValorContaCredito(Integer.parseInt(numeroCelular));
 		if(valordata.getTipo()=='c') {
-			System.out.println("Crédito total disponível no celular: " + valordata.getValor() + " reais.");
-			SimpleDateFormat fmt = new SimpleDateFormat("dd-MMM-yyyy");
-		    fmt.setCalendar(valordata.getData());
-		    String dateFormatted = fmt.format(valordata.getData().getTime());
-		    System.out.println("Data de validade dos créditos: " + dateFormatted);
+			System.out.println("Crédito total disponível no celular: "
+		+ String.format("%.2f", valordata.getValor()) + " reais.");
+		    System.out.println("Data de validade dos créditos: " + DateToString(valordata.getData()));
 		}else {
-			System.out.println("Valor total a pagar até a validade:  " + valordata.getValor() + " reais.");
-			SimpleDateFormat fmt = new SimpleDateFormat("dd-MMM-yyyy");
-		    fmt.setCalendar(valordata.getData());
-		    String dateFormatted = fmt.format(valordata.getData().getTime());
-		    System.out.println("Validade do faturamento: " + dateFormatted);
+			System.out.println("Valor total a pagar até a validade:  "
+		+ String.format("%.2f", valordata.getValor()) + " reais.");
+		    System.out.println("Validade do faturamento: " + DateToString(valordata.getData()));
 		}
 		System.out.println("-----------------------------");
 		
@@ -317,27 +312,29 @@ public class Interface {
 		System.out.println("-----------------------------");
 		System.out.println("Digite o número do celular do qual se deseja tirar o extrato: ");
 		String numeroCelular = scan.nextLine();
-		System.out.println("Deseja-se o extrato desde o dia(formato d/m/aaaa): ");
-		String Data =  scan.nextLine();
+		System.out.println("Extrato desde o dia(formato dd/mm/aaaa): ");
+	
+		GregorianCalendar dataExtrato = 
+				GetStringToGregorianCalData("data","Extrato desde o dia(formato dd/mm/aaaa): ");
 		
-		GregorianCalendar dataExtrato = null;
-		String dia = null; String mes = null; String ano = null;
-		dia = Data.substring(0, Data.indexOf("/"));
-		mes = Data.substring(Data.indexOf("/")+1, Data.indexOf("/",Data.indexOf("/")+1));
-		ano = Data.substring(1+Data.indexOf("/",Data.indexOf("/")+1), Data.length());
-		dataExtrato = new GregorianCalendar(Integer.parseInt(ano), Integer.parseInt(mes)-1, Integer.parseInt(dia));
+		if(dataExtrato==null)
+			return;
 		
+	    String dateFormattedT = DateToString(dataExtrato);
+	    
+		System.out.println("-----------------------------");
+		System.out.println("EXTRATO DO CELULAR "+ numeroCelular);
+		System.out.println("DESDE " + dateFormattedT);
+		System.out.println("-----------------------------");
 		
 		ArrayList<Ligacao> ligacoesExtrato = operadora.listarExtratoLigacoes(Integer.parseInt(numeroCelular), dataExtrato);
 		for(Ligacao l: ligacoesExtrato) {
 			
-			SimpleDateFormat fmt = new SimpleDateFormat("dd-MMM-yyyy");
-		    fmt.setCalendar(l.getDataLigacao());
-		    String dateFormatted = fmt.format(l.getDataLigacao().getTime());
+
 			System.out.println("===========");
-			System.out.println("Data da ligação: " + dateFormatted);
+			System.out.println("Data da ligação: " + DateToString(l.getDataLigacao()));
 			System.out.println("Duração: " + l.getDuracaoMinutos());
-			System.out.println("Valor cobrado pela ligação: " + l.getValorCobrado());
+			System.out.println("Valor cobrado pela ligação: " + String.format("%.2f", l.getValorCobrado()));
 			System.out.println("===========");
 			//lembrar de chegar comparações entre dias como por exemplo: 31/06/2018 e 01/06/2018
 			// nao sei porque mas está dando como se fosse a mesma data.
@@ -370,10 +367,7 @@ public class Interface {
 						System.out.println("Crédito total disponível no celular: " + valordata.getValor());
 						
 						if(valordata.getData() != null) {
-							SimpleDateFormat fmt = new SimpleDateFormat("dd-MMM-yyyy");
-						    fmt.setCalendar(valordata.getData());
-						    String dateFormatted = fmt.format(valordata.getData().getTime());
-						    System.out.println("Data de validade dos créditos: " + dateFormatted);
+						    System.out.println("Data de validade dos créditos: " + DateToString(valordata.getData()));
 						}else {
 							System.out.println("Vencimento ainda não estabelecido porque o celular não tem crédito.");
 						}
@@ -383,10 +377,7 @@ public class Interface {
 						System.out.println("Valor total a pagar até o vencimento da fartura:  " 
 						+ valordata.getValor());
 						
-						SimpleDateFormat fmt = new SimpleDateFormat("dd-MMM-yyyy");
-					    fmt.setCalendar(valordata.getData());
-					    String dateFormatted = fmt.format(valordata.getData().getTime());
-					    System.out.println("Validade do faturamento: " + dateFormatted);
+					    System.out.println("Validade do faturamento: " + DateToString(valordata.getData()));
 					}
 					System.out.println("Nome do plano: " + cel.getConta().getPlano().getNome());
 					System.out.println("===================");
@@ -464,6 +455,67 @@ public class Interface {
 		       System.out.println();
 	}
 	
-	
-	
+	private String DateToString(GregorianCalendar Data) {
+		SimpleDateFormat fmtT = new SimpleDateFormat("dd/MM/yyyy 'às' h:mm:ss");
+	    fmtT.setCalendar(Data);
+	    String dateFormattedT = fmtT.format(Data.getTime());
+	    return dateFormattedT;
+		
+	}
+	private GregorianCalendar GetStringToGregorianCalData(String caso, String repeticao) {
+		
+		Scanner scan = new Scanner(System.in);
+		String dia = null;String  mes = null;String ano = null;
+		String hora = null;String minuto = null; String segundo = null;
+		GregorianCalendar data = null;
+		boolean tentativaDigitarData = false;
+		while(!tentativaDigitarData) {
+			try {
+				String Data =  scan.nextLine();
+				dia = Data.substring(0, Data.indexOf("/"));
+				mes = Data.substring(Data.indexOf("/")+1, Data.indexOf("/",Data.indexOf("/")+1));
+				ano = Data.substring(1+Data.indexOf("/",Data.indexOf("/")+1), Data.length());
+				
+				if(caso.equals("horario")) {
+					
+					System.out.println("Digite o horário da ligação no formato hh:mm:ss");
+					String horarioLigacao=  scan.nextLine();
+					hora = horarioLigacao.substring(0, horarioLigacao.indexOf(":"));
+					minuto = horarioLigacao.substring(horarioLigacao.indexOf(":")+1, horarioLigacao.indexOf(":",horarioLigacao.indexOf(":")+1));
+					segundo = horarioLigacao.substring(1+horarioLigacao.indexOf(":",horarioLigacao.indexOf(":")+1), horarioLigacao.length());
+					
+					data = new GregorianCalendar(Integer.parseInt(ano), Integer.parseInt(mes)-1, Integer.parseInt(dia),
+								Integer.parseInt(hora),Integer.parseInt(minuto),Integer.parseInt(segundo));
+					return data;
+				}else if (caso.equals("data")){
+					
+					data = new GregorianCalendar(Integer.parseInt(ano),
+							Integer.parseInt(mes)-1, Integer.parseInt(dia));
+					return data;
+				}else if (caso.equals("val")) {
+					String horarioLigacao = "23:59:59";
+					hora = horarioLigacao.substring(0, horarioLigacao.indexOf(":"));
+					minuto = horarioLigacao.substring(horarioLigacao.indexOf(":")+1, horarioLigacao.indexOf(":",horarioLigacao.indexOf(":")+1));
+					segundo = horarioLigacao.substring(1+horarioLigacao.indexOf(":",horarioLigacao.indexOf(":")+1), horarioLigacao.length());
+					data = new GregorianCalendar(Integer.parseInt(ano), Integer.parseInt(mes)-1, Integer.parseInt(dia),
+							Integer.parseInt(hora),Integer.parseInt(minuto),Integer.parseInt(segundo));
+					return data;
+				}
+				
+				
+				tentativaDigitarData = true;
+				}catch(Exception e){
+					System.out.println("Data deve ser digitada no formato indicado (dd/mm/aaaa)");
+					System.out.println("Por exemplo: 03/04/2018.");
+					System.out.println("Tente novamente (aperte qualquer botao) ou volte para o menu (q).");
+					String strError =  scan.nextLine();
+					if(strError.equals("q")||strError.equals("Q"))
+						return null;
+					System.out.println(repeticao);
+
+				}
+		}
+
+		return null;
+	}
 }

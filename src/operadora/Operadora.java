@@ -229,10 +229,10 @@ public class Operadora implements Serializable{
 
 			objectoutput.close();
 			fileoutput.close();
-			System.out.println("Dados de operadora salvos em arquivo.");
+			System.out.println("Dados de operadora salvos no arquivo DadosOperadora.dat");
 
 		} catch (IOException excecao) {
-			System.out.println("Erro ao inicializar stream");
+			System.out.println("Erro ao inicializar stream.");
 			System.out.println("Não foi possível salvar os dados.");
 		}
 	}
