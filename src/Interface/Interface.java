@@ -386,7 +386,20 @@ public class Interface {
 			System.out.println("--------------------------------------------------");
 		}
 	}
-	void listarCelulares() {}
+	void listarCelulares() {
+		System.out.println("LISTA DE CELULARES");
+		for(Celular c: operadora.listarCelulares()) {
+			System.out.println("-----------------------------");
+			System.out.println("Número: " + c.getNumero());
+			System.out.println("CPf ou CNPJ do cliente: " + c.getCliente().getCpfOuCnpj());
+			System.out.println("Plano: " + c.getConta().getPlano().getNome());
+			if(c.getConta().getTipo() == 'a') {
+				System.out.println("Celular pós-pago");
+			}
+			else
+				System.out.println("Celular pré-pago");
+		}
+	}
 	void listarPlanos() {
 		
 		System.out.println("LISTA DE PLANOS");
@@ -448,7 +461,16 @@ public class Interface {
 		
 	}
 	void quitarConta() {}
-	void zerarCredito() {}
+
+	void zerarCredito() throws ExcecaoCelular {
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Digite o número do celular do qual se deseja zerar os créditos: ");
+		String numeroCelular = scan.nextLine();
+		operadora.zerarCreditoConta(Integer.parseInt(numeroCelular));
+		
+		System.out.println("Crédito do número "+ numeroCelular + " zerado.");
+		
+	}
 	
 	private void jumpSpace() {
 		for (int i = 0; i < 3; ++i)  
