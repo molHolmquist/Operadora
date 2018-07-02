@@ -1,11 +1,12 @@
 package Operadora;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import excecoes.ExcecaoCelular;
 
-public class ContaCelular{ // Associado a um e apenas um celular
+public class ContaCelular implements Serializable{ // Associado a um e apenas um celular
 	
 	protected ArrayList<Ligacao> ligacoes;
 	protected GregorianCalendar validade;
@@ -14,6 +15,7 @@ public class ContaCelular{ // Associado a um e apenas um celular
 	
 	ContaCelular(Plano plano){
 		this.plano = plano;
+		ligacoes = new ArrayList<Ligacao>();
 	}
 	
 	ContaCelular(Plano plano, GregorianCalendar validade){

@@ -96,6 +96,12 @@ public class Operadora implements Serializable{
 	public void excluirCelular(int numeroCelular) throws ExcecaoCelular{
 		
 		Celular celular = buscarCelular(numeroCelular);
+		 for(Cliente cliente: clientes) {
+			 
+			 if(celular.getCliente().getCpfOuCnpj().equals(cliente.getCpfOuCnpj())) {
+				 cliente.removerCelular(celular);
+			 }
+		 }
 		if(celular.getConta().checarPendencia()) {
 			throw new ExcecaoCelular("Celular ainda tem pendencias.",celular);
 		}
@@ -108,7 +114,7 @@ public class Operadora implements Serializable{
 			throw new ExcecaoCelular("Não possível adicionar crédito a conta do tipo assinatura.", celular);
 		}
 		GregorianCalendar validade = new GregorianCalendar();
-		validade.set(GregorianCalendar.DAY_OF_YEAR, validade.get(GregorianCalendar.DAY_OF_YEAR) + 179);
+		validade.set(GregorianCalendar.DAY_OF_YEAR, validade.get(GregorianCalendar.DAY_OF_YEAR) + 180);
 		
 		((ContaCartao) celular.getConta()).adicionarCredito(valor,validade);
 		
@@ -187,7 +193,7 @@ public class Operadora implements Serializable{
 		throw new ExcecaoCelular("Celular inexistente.");
 		
 	}
-	private Plano buscarPlano(String nomePlano) throws ExcecaoPlano {
+	public Plano buscarPlano(String nomePlano) throws ExcecaoPlano {
 		
 		
 		for(Plano p: planos) {
@@ -206,74 +212,74 @@ public class Operadora implements Serializable{
 				return c;
 			}
 		}
-		throw new ExcecaoCliente("Cliente com CPF ou CNPJ " + cpfOuCnpj +   " não encontrado.");
+		throw new ExcecaoCliente("Cliente com CPF ou CNPJ '" + cpfOuCnpj +   "' não encontrado.");
 		
 	}
 	
 	
 	
-	public void writeFile() {
+	public void escreverArquivo() {
 
 		try {
-			FileOutputStream f = new FileOutputStream(new File("DadosOperadora.dat"));
-			ObjectOutputStream o = new ObjectOutputStream(f);
+			FileOutputStream fileoutput = new FileOutputStream(new File("DadosOperadora.dat"));
+			ObjectOutputStream objectoutput = new ObjectOutputStream(fileoutput);
 
 			// Write objects to file
-			o.writeObject(this);
+			objectoutput.writeObject(this);
 
-			o.close();
-			f.close();
-			System.out.println("Alterações salvas");
+			objectoutput.close();
+			fileoutput.close();
+			System.out.println("Dados de operadora salvos em arquivo.");
 
-		} catch (IOException e) {
-			System.out.println("Error initializing stream");
-			System.out.println("\nNão foi possível salvar as Alterações!\n");
+		} catch (IOException excecao) {
+			System.out.println("Erro ao inicializar stream");
+			System.out.println("Não foi possível salvar os dados.");
 		}
 	}
 
-	public static Operadora readFile() {
+	public static Operadora lerArquivo() {
 
 		try {
-			FileInputStream fi = new FileInputStream(new File("DadosOperadora.dat"));
-			ObjectInputStream oi = new ObjectInputStream(fi);
+			FileInputStream fileinput = new FileInputStream(new File("DadosOperadora.dat"));
+			ObjectInputStream objectinput = new ObjectInputStream(fileinput);
 
 			// Read objects
-			Operadora operadora = (Operadora) oi.readObject();
+			Operadora operadora = (Operadora) objectinput.readObject();
 
-			oi.close();
-			fi.close();
-			//operadora.listarCelulares().get(operadora.listarCelulares().size()-1
+			objectinput.close();
+			fileinput.close();
+
 			if (operadora.listarCelulares().size() >= 1)
-				Celular.setProximoNumeroCelular(operadora.listarCelulares().get(operadora.listarCelulares().size()-1).getNumero());
+				Celular.setProximoNumeroCelular(operadora.listarCelulares().get(operadora.listarCelulares().size()-1).getNumero()+1);
 
 			return operadora;
 
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found");
-			return operadoraDefault();
-		} catch (IOException e) {
-			System.out.println("Error initializing stream");
-			return operadoraDefault();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+		} catch (FileNotFoundException excecao) {
+			System.out.println("Arquivo não encontrado.");
+			return operadoraPreDefinida();
+		} catch (IOException excecao) {
+			System.out.println("Erro ao inicializar stream");
+			return operadoraPreDefinida();
+		} catch (ClassNotFoundException excecao) {
+			excecao.printStackTrace();
 		}
 		return null;
 	}
-	public static Operadora operadoraDefault() {
+	public static Operadora operadoraPreDefinida() {
 
-		Operadora op1 = new Operadora("Tim");
+		Operadora operadora = new Operadora("Tim");
 
 		try {
-			FileOutputStream f = new FileOutputStream(new File("DadosOperadora.dat"));
-			ObjectOutputStream o = new ObjectOutputStream(f);
+			FileOutputStream fileoutput = new FileOutputStream(new File("DadosOperadora.dat"));
+			ObjectOutputStream objectoutput = new ObjectOutputStream(fileoutput);
 
-			o.writeObject(op1);
+			objectoutput.writeObject(operadora);
 
-			o.close();
-			f.close();
-			return op1;
-		} catch (IOException e) {
-			System.out.println("Error initializing stream");
+			objectoutput.close();
+			fileoutput.close();
+			return operadora;
+		} catch (IOException excecao) {
+			System.out.println("Erro ao inicializar stream");
 		}
 		return null;
 	}

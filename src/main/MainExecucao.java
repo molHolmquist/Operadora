@@ -6,7 +6,7 @@ import Operadora.*;
 public class MainExecucao {
 
 	public static void main(String[] args) {
-		Operadora op = Operadora.readFile();
+		Operadora op = Operadora.lerArquivo();
 		if(op != null) {
 			Interface in = new Interface(op);
 			in.menu();

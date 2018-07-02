@@ -1,8 +1,9 @@
 package Operadora;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
-public class Ligacao {
+public class Ligacao implements Serializable{
 	
 
 	private GregorianCalendar dataLigacao;

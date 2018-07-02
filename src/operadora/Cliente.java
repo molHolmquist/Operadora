@@ -3,6 +3,8 @@ package Operadora;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import excecoes.ExcecaoCelular;
+
 public class Cliente implements Serializable{
 	private String nome;
 	private String cpfOuCnpj;
@@ -45,10 +47,16 @@ public class Cliente implements Serializable{
 	public void addCelular(Celular celular) {
 		this.listaCelulares.add(celular);
 	}
+	
+	public void removerCelular(Celular celular) throws ExcecaoCelular {
+		if(!this.listaCelulares.remove(celular)) {
+			throw new ExcecaoCelular("Cliente não possui este celular.");
+		}
+	}
 
 	@Override
 	public String toString() {
-		return "Cliente: nome= " + nome + ", cpfOuCnpj= " + cpfOuCnpj;
+		return "Nome: " + nome + ", CPF ou CNPJ: " + cpfOuCnpj;
 	}
 
 }
