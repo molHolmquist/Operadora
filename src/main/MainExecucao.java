@@ -15,8 +15,6 @@ public class MainExecucao {
 			System.out.println("Nao foi possível criar operadora.");
 			
 		}
-		
-		
 	}
 
 }

@@ -266,7 +266,20 @@ public class Interface {
 
 		}
 	}
-	void listarCelulares() {}
+	void listarCelulares() {
+		System.out.println("LISTA DE CELULARES");
+		for(Celular c: operadora.listarCelulares()) {
+			System.out.println("-----------------------------");
+			System.out.println("Número: " + c.getNumero());
+			System.out.println("Cpf ou CNPJ do cliente: " + c.getCliente().getCpfOuCnpj());
+			System.out.println("Plano: " + c.getConta().getPlano().getNome());
+			if(c.getConta().getTipo() == 'a') {
+				System.out.println("Celular pós-pago");
+			}
+			else
+				System.out.println("Celular pré-pago");
+		}
+	}
 	void listarPlanos() {
 		
 		System.out.println("LISTA DE PLANOS");
