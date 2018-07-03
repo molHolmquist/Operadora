@@ -229,7 +229,7 @@ public class Operadora implements Serializable{
 	public void escreverArquivo() {
 
 		try {
-			FileOutputStream fileoutput = new FileOutputStream(new File("DadosOperadora.dat"));
+			FileOutputStream fileoutput = new FileOutputStream(new File("DadosOperadora.txt"));
 			ObjectOutputStream objectoutput = new ObjectOutputStream(fileoutput);
 
 			// Write objects to file
@@ -237,7 +237,7 @@ public class Operadora implements Serializable{
 
 			objectoutput.close();
 			fileoutput.close();
-			System.out.println("Dados de operadora salvos no arquivo DadosOperadora.dat");
+			System.out.println("Dados de operadora salvos no arquivo DadosOperadora.txt");
 
 		} catch (IOException excecao) {
 			System.out.println("Erro ao inicializar stream.");
@@ -248,7 +248,7 @@ public class Operadora implements Serializable{
 	public static Operadora lerArquivo() {
 
 		try {
-			FileInputStream fileinput = new FileInputStream(new File("DadosOperadora.dat"));
+			FileInputStream fileinput = new FileInputStream(new File("DadosOperadora.txt"));
 			ObjectInputStream objectinput = new ObjectInputStream(fileinput);
 
 			// Read objects
@@ -278,7 +278,7 @@ public class Operadora implements Serializable{
 		Operadora operadora = new Operadora("Tim");
 
 		try {
-			FileOutputStream fileoutput = new FileOutputStream(new File("DadosOperadora.dat"));
+			FileOutputStream fileoutput = new FileOutputStream(new File("DadosOperadora.txt"));
 			ObjectOutputStream objectoutput = new ObjectOutputStream(fileoutput);
 
 			objectoutput.writeObject(operadora);
