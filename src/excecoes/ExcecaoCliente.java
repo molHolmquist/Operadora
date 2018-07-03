@@ -22,23 +22,6 @@ public class ExcecaoCliente extends Exception {
 		this.cliente = cliente;
 	}
 
-	public ExcecaoCliente(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-		// TODO Auto-generated constructor stub
-	}
-
-	public ExcecaoCliente(String message, Throwable cause) {
-		super(message, cause);
-		// TODO Auto-generated constructor stub
-	}
-
-
-
-	public ExcecaoCliente(Throwable cause) {
-		super(cause);
-		// TODO Auto-generated constructor stub
-	}
-
 	public Cliente getCliente() {
 		return cliente;
 	}

@@ -49,6 +49,7 @@ public class Interface {
 				System.out.println("12: Informativo de vencimento dos celulares");
 				System.out.println("13: Quitar conta");
 				System.out.println("14: Zerar creditos");
+				System.out.println("15: Renovar data de fatura");
 				System.out.println("q : Sair do programa");
 			    System.out.println("============================");
 	
@@ -97,7 +98,7 @@ public class Interface {
 			    	zerarCredito();
 			    	break;
 			    case "15":
-			    	zerarCredito();
+			    	renovarDataFatura();
 			    	break;
 			    case "q":
 			    	System.out.println();
@@ -109,7 +110,7 @@ public class Interface {
 			    	break;
 			    default:
 			    	System.out.println("Entrada inválida. Digite um valor entre 1 e 15,"
-			    			+ " ou então saia do programa e grave os dados com q.");
+			    			+ " ou entao saia do programa e grave os dados com q.");
 			    
 			    }
 			} catch(ExcecaoCliente ec) {
@@ -165,12 +166,13 @@ public class Interface {
 		System.out.println("2: Novo cliente. ");
 		String s = scan.nextLine();
 		Cliente c = null;
+
 		switch(s) {
-		
 			case "1":
 				System.out.println("Digite o número de seu CPF ou CNPJ:");
 				s = scan.nextLine();
 				c = operadora.buscarCliente(s);
+
 				break;
 			case "2":
 				System.out.println("Insira o nome do Cliente:");
@@ -184,11 +186,10 @@ public class Interface {
 				System.out.println("Cliente cadastrado.");
 				break;
 			default:
-				System.out.println("Entrada inválida, opções: 1 ou 2. Para voltar ao menu digite (q)");
-				if(s.equals("q")||s.equals("Q"))
-					return;
+				System.out.println("Entrada inválida, opções: 1 ou 2.");
 				
 		}
+		
 		
 		System.out.println("-----------------------------");
 		System.out.println("Celular com plano pós pago ou pré pago?");
@@ -223,9 +224,7 @@ public class Interface {
 				System.out.println("Vencimento da fatura: " + DateToString(data));
 				break;
 			default:
-				System.out.println("Entrada inválida, opções: 1 ou 2. Para voltar ao menu digite (q)");
-				if(s.equals("q")||s.equals("Q"))
-					return;
+				System.out.println("Entrada inválida, opções: 1 ou 2.");
 				
 		}
 		
@@ -263,21 +262,21 @@ public class Interface {
 		
 		Scanner scan = new Scanner(System.in);
 		System.out.println("-----------------------------");
-		System.out.println("Registrando Ligação");
+		System.out.println("Registrando Ligaçao");
 		System.out.println("-----------------------------");
 		System.out.println("Digite o número do celular: ");
 		String numeroCelular = scan.nextLine();
-		System.out.println("Digite a duração da ligação em minutos: ");
+		System.out.println("Digite a duraçao da ligaçao em minutos: ");
 		String duracao = scan.nextLine();
-		System.out.println("Digite a data da ligação no formato dd/mm/aaaa: ");
+		System.out.println("Digite a data da ligaçao no formato dd/mm/aaaa: ");
 		
 		GregorianCalendar dataLigacao = 
-				GetStringToGregorianCalData("horario", "Digite a data da ligação no formato dd/mm/aaaa: ");
+				GetStringToGregorianCalData("horario", "Digite a data da ligaçao no formato dd/mm/aaaa: ");
 		if(dataLigacao == null)
 			return;
 		operadora.registrarLigacao(Integer.parseInt(numeroCelular), Double.parseDouble(duracao), dataLigacao);
 		
-		System.out.println("Ligacação registrada no número " + numeroCelular + " em "
+		System.out.println("Ligacaçao registrada no número " + numeroCelular + " em "
 				+ DateToString(dataLigacao)+ ".");
 		System.out.println("-----------------------------");
 	}
@@ -332,9 +331,9 @@ public class Interface {
 			
 
 			System.out.println("===========");
-			System.out.println("Data da ligação: " + DateToString(l.getDataLigacao()));
-			System.out.println("Duração: " + l.getDuracaoMinutos());
-			System.out.println("Valor cobrado pela ligação: " + String.format("%.2f", l.getValorCobrado()));
+			System.out.println("Data da ligaçao em minutos: " + DateToString(l.getDataLigacao()));
+			System.out.println("Duraçao: " + String.format("%.2f",l.getDuracaoMinutos()));
+			System.out.println("Valor cobrado pela ligaçao: " + String.format("%.2f", l.getValorCobrado()));
 			System.out.println("===========");
 			//lembrar de chegar comparações entre dias como por exemplo: 31/06/2018 e 01/06/2018
 			// nao sei porque mas está dando como se fosse a mesma data.
@@ -369,7 +368,7 @@ public class Interface {
 						if(valordata.getData() != null) {
 						    System.out.println("Data de validade dos créditos: " + DateToString(valordata.getData()));
 						}else {
-							System.out.println("Vencimento ainda não estabelecido porque o celular não tem crédito.");
+							System.out.println("Vencimento ainda nao estabelecido porque o celular nao tem crédito.");
 						}
 					}
 					else {
@@ -420,8 +419,6 @@ public class Interface {
 			System.out.println("Nenhum celular com conta/crédito vencido");
 		for(Celular cel: celularesContaVencida){
 			
-			
-			
 			System.out.println("====================");
 			System.out.println("Número do celular: " + cel.getNumero());
 			ValorData valordata = operadora.listarValorContaCredito(cel.getNumero());
@@ -430,23 +427,16 @@ public class Interface {
 				System.out.println("Crédito total disponível no celular: " + valordata.getValor());
 				
 				if(valordata.getData() != null) {
-					SimpleDateFormat fmt = new SimpleDateFormat("dd-MMM-yyyy");
-				    fmt.setCalendar(valordata.getData());
-				    String dateFormatted = fmt.format(valordata.getData().getTime());
-				    System.out.println("Data de validade dos créditos: " + dateFormatted);
+				    System.out.println("Data de validade dos créditos: " + DateToString(valordata.getData()));
 				}else {
-					System.out.println("Vencimento ainda não estabelecido porque o celular não tem crédito.");
+					System.out.println("Vencimento ainda nao estabelecido porque o celular nao tem crédito.");
 				}
 			}
 			else {
 				System.out.println("Plano pós-pago.");
 				System.out.println("Valor total a pagar até o vencimento da fartura:  " 
-				+ valordata.getValor());
-				
-				SimpleDateFormat fmt = new SimpleDateFormat("dd-MMM-yyyy");
-			    fmt.setCalendar(valordata.getData());
-			    String dateFormatted = fmt.format(valordata.getData().getTime());
-			    System.out.println("Validade do faturamento: " + dateFormatted);
+				+ String.format("%.2f", valordata.getValor()));
+			    System.out.println("Validade do faturamento: " + DateToString(valordata.getData()));
 			}
 			System.out.println("Nome do plano: " + cel.getConta().getPlano().getNome());
 			Cliente c = cel.getCliente();
@@ -460,9 +450,36 @@ public class Interface {
 		
 		
 	}
-	void quitarConta() {}
+	void quitarConta() throws ExcecaoCelular{
+		Scanner scan = new Scanner(System.in);
+		System.out.println("--------------------");
+		System.out.println("Quitando fatura de celular");
+		System.out.println("--------------------");
+		System.out.println("Digite o número do celular: ");
+		String numeroCelular = scan.nextLine();
+		System.out.println("Digite 1 para quitar completamente fatura e 2 para especificar um valor.");
+		String s = scan.nextLine();
+		switch(s) {
+		
+			case "1":
+				operadora.quitarConta(Integer.valueOf(numeroCelular));
+				System.out.println("Fatura do celular de número " + numeroCelular + " quitado.");
+				break;
+			case "2":
+				System.out.println("Digite o valor a ser quitado: ");
+				String valor = scan.nextLine();
+				operadora.quitarParteConta(Integer.valueOf(numeroCelular), Double.valueOf(valor));
+				System.out.println(valor + " reais quitado do celular de número " + numeroCelular);
+				break;
+			default:
+				System.out.println("Entrada inválida, opções: 1 ou 2.");
+		}
+	}
 
 	void zerarCredito() throws ExcecaoCelular {
+		System.out.println("--------------------");
+		System.out.println("Zerando crédito de celular");
+		System.out.println("--------------------");
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Digite o número do celular do qual se deseja zerar os créditos: ");
 		String numeroCelular = scan.nextLine();
@@ -472,13 +489,23 @@ public class Interface {
 		
 	}
 	
-	private void jumpSpace() {
-		for (int i = 0; i < 3; ++i)  
-		       System.out.println();
+	void renovarDataFatura() throws ExcecaoCelular{
+		System.out.println("--------------------");
+		System.out.println("Renovando vencimento de fatura de celular");
+		System.out.println("--------------------");
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Digite o número do celular cujo vencimento de fatura será renovado: ");
+		String numeroCelular = scan.nextLine();
+		String dataAntiga = 
+				DateToString(operadora.buscarCelular(Integer.valueOf(numeroCelular)).getConta().getValidade());
+		operadora.renovarDataFatura(Integer.valueOf(numeroCelular));
+		String dataNova = 
+				DateToString(operadora.buscarCelular(Integer.valueOf(numeroCelular)).getConta().getValidade());
+		System.out.println("Vencimento renovado de " + dataAntiga + " para " + dataNova + ".");
 	}
 	
 	private String DateToString(GregorianCalendar Data) {
-		SimpleDateFormat fmtT = new SimpleDateFormat("dd/MM/yyyy 'às' h:mm:ss");
+		SimpleDateFormat fmtT = new SimpleDateFormat("dd/MM/yyyy 'às' h:mm:ss a");
 	    fmtT.setCalendar(Data);
 	    String dateFormattedT = fmtT.format(Data.getTime());
 	    return dateFormattedT;
@@ -500,7 +527,7 @@ public class Interface {
 				
 				if(caso.equals("horario")) {
 					
-					System.out.println("Digite o horário da ligação no formato hh:mm:ss");
+					System.out.println("Digite o horário da ligaçao no formato hh:mm:ss");
 					String horarioLigacao=  scan.nextLine();
 					hora = horarioLigacao.substring(0, horarioLigacao.indexOf(":"));
 					minuto = horarioLigacao.substring(horarioLigacao.indexOf(":")+1, horarioLigacao.indexOf(":",horarioLigacao.indexOf(":")+1));

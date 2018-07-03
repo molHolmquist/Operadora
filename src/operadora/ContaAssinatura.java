@@ -1,5 +1,6 @@
 package Operadora;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import excecoes.ExcecaoCelular;
@@ -41,6 +42,12 @@ public class ContaAssinatura extends ContaCelular{
 	
 	public ValorData listarValorContaCredito() {
 		return new ValorData(this.TotalAPagar, this.validade,'a');
+	}
+	public void renovarValidadeFatura() {
+
+		//Calendar cal = Calendar.getInstance();
+		//cal.setTime(this.validade.getTime());
+		this.validade.add(Calendar.MONTH, 1);
 	}
 
 

@@ -96,15 +96,15 @@ public class Operadora implements Serializable{
 	public void excluirCelular(int numeroCelular) throws ExcecaoCelular{
 		
 		Celular celular = buscarCelular(numeroCelular);
+		if(celular.getConta().checarPendencia()) {
+			throw new ExcecaoCelular("Celular ainda tem pendencias.",celular);
+		}
 		 for(Cliente cliente: clientes) {
 			 
 			 if(celular.getCliente().getCpfOuCnpj().equals(cliente.getCpfOuCnpj())) {
 				 cliente.removerCelular(celular);
 			 }
 		 }
-		if(celular.getConta().checarPendencia()) {
-			throw new ExcecaoCelular("Celular ainda tem pendencias.",celular);
-		}
 		celulares.remove(celular);
 	}
 	public void adicionarCredito(int numeroCelular, double valor) throws ExcecaoCelular {
@@ -183,7 +183,7 @@ public class Operadora implements Serializable{
 		((ContaCartao) celular.getConta()).zerarCredito();
 	}
 
-	private Celular buscarCelular(int numeroCelular) throws ExcecaoCelular {
+	public Celular buscarCelular(int numeroCelular) throws ExcecaoCelular {
 		
 		for(Celular cel: celulares) {
 			if(cel.getNumero() == numeroCelular) {
@@ -213,6 +213,14 @@ public class Operadora implements Serializable{
 			}
 		}
 		throw new ExcecaoCliente("Cliente com CPF ou CNPJ '" + cpfOuCnpj +   "' não encontrado.");
+		
+	}
+	public void renovarDataFatura(int numeroCelular) throws ExcecaoCelular{
+		
+		Celular cel = buscarCelular(numeroCelular);
+		if(cel.getConta().getTipo() == 'c')
+			throw new ExcecaoCelular("Não se renova data de fatura de celular do tipo cartão", cel);
+		((ContaAssinatura)cel.getConta()).renovarValidadeFatura();
 		
 	}
 	

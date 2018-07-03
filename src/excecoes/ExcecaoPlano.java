@@ -21,21 +21,6 @@ public class ExcecaoPlano extends Exception{
 		this.plano = plano;
 	}
 
-	public ExcecaoPlano(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-		// TODO Auto-generated constructor stub
-	}
-
-	public ExcecaoPlano(String message, Throwable cause) {
-		super(message, cause);
-		// TODO Auto-generated constructor stub
-	}
-
-	public ExcecaoPlano(Throwable cause) {
-		super(cause);
-		// TODO Auto-generated constructor stub
-	}
-
 	public Plano getPlano() {
 		return plano;
 	}
